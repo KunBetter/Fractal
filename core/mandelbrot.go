@@ -51,9 +51,8 @@ func repeat(z, c *Complex) color.RGBA {
 	for k := 0; k < 256; k++ {
 		v2 := z.real * z.real + z.imag * z.imag
 		if v2 > 4 {
-			f := int(math.Sqrt(v2)) - 2
-			//TODO color
-			return color.RGBA{uint8(k + f * 11 + 255), uint8(k * f * 5), uint8(k * f * 3 + 255), 255}
+			var f float64 = float64(k - 25) / 256;
+			return color.RGBA{uint8(255 * math.Pow(f, 0.3)), uint8(255 * math.Pow(f, 0.2)), uint8(255 * math.Pow(f, 0.5)), 255}
 		} else {
 			z = z.Multiply(z).Add(c)
 		}
