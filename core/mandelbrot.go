@@ -10,12 +10,16 @@ import (
 	"encoding/base64"
 	"log"
 	"html/template"
+	"time"
+	"fmt"
 )
 
 type Mandelbrot struct {
 }
 
 func (mandelbrot *Mandelbrot) Render(w http.ResponseWriter, req *http.Request) {
+	//纳秒
+	startTime := time.Now().UnixNano()
 	m := image.NewRGBA(image.Rect(0, 0, 640, 500))
 
 	c := Complex{
@@ -45,6 +49,9 @@ func (mandelbrot *Mandelbrot) Render(w http.ResponseWriter, req *http.Request) {
 
 	var img image.Image = m
 	writeImageWithTemplate(w, &img)
+	//纳秒转化为毫秒
+	costTime := (time.Now().UnixNano() - startTime) / 1e6
+	fmt.Printf("costTime = %d millisecond.\n", costTime)
 }
 
 func repeat(z, c *Complex) color.RGBA {
