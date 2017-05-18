@@ -17,6 +17,10 @@ import (
 type Mandelbrot struct {
 }
 
+type param struct {
+	i, j int
+}
+
 func (mandelbrot *Mandelbrot) Render(w http.ResponseWriter, req *http.Request) {
 	//纳秒
 	startTime := time.Now().UnixNano()
@@ -36,16 +40,28 @@ func (mandelbrot *Mandelbrot) Render(w http.ResponseWriter, req *http.Request) {
 	 * -0.70176, -0.3842
 	 */
 
+	pc := make(chan *param)
+
+	for k := 0; k < 20; k++ {
+		go func() {
+			for p := range pc {
+				z := Complex{
+					float64(p.i - 320) / 200,
+					float64(p.j - 250) / 200,
+				}
+				cr := repeat(&z, &c)
+				m.Set(p.i, p.j, cr)
+			}
+		}()
+	}
+
 	for i := 0; i < 640; i++ {
 		for j := 0; j < 500; j++ {
-			z := Complex{
-				float64(i - 320) / 200,
-				float64(j - 250) / 200,
-			}
-			cr := repeat(&z, &c)
-			m.Set(i, j, cr)
+			p := &param{i, j}
+			pc <- p
 		}
 	}
+	close(pc)
 
 	var img image.Image = m
 	writeImageWithTemplate(w, &img)
