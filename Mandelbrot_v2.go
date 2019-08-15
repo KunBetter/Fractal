@@ -9,6 +9,11 @@ import (
 	"net/http"
 )
 
+/*
+使用jupyter搭建golang的交互式界面：类似于ipython；jupyter还可以使用spark或者结合机器学习
+https://www.cnblogs.com/shengulong/p/10257511.html
+*/
+
 func handle(w http.ResponseWriter, r *http.Request) {
 	draw(w)
 }
