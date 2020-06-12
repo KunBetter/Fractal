@@ -1,17 +1,17 @@
 package Fractal
 
 import (
-	"net/http"
-	"image"
-	"math"
-	"image/color"
 	"bytes"
-	"image/jpeg"
 	"encoding/base64"
-	"log"
-	"html/template"
-	"time"
 	"fmt"
+	"html/template"
+	"image"
+	"image/color"
+	"image/jpeg"
+	"log"
+	"math"
+	"net/http"
+	"time"
 )
 
 type Mandelbrot struct {
@@ -46,8 +46,8 @@ func (mandelbrot *Mandelbrot) Render(w http.ResponseWriter, req *http.Request) {
 		go func() {
 			for p := range pc {
 				z := Complex{
-					float64(p.i - 320) / 200,
-					float64(p.j - 250) / 200,
+					float64(p.i-320) / 200,
+					float64(p.j-250) / 200,
 				}
 				cr := repeat(&z, &c)
 				m.Set(p.i, p.j, cr)
@@ -72,9 +72,9 @@ func (mandelbrot *Mandelbrot) Render(w http.ResponseWriter, req *http.Request) {
 
 func repeat(z, c *Complex) color.RGBA {
 	for k := 0; k < 256; k++ {
-		v2 := z.real * z.real + z.imag * z.imag
+		v2 := z.real*z.real + z.imag*z.imag
 		if v2 > 4 {
-			var f float64 = float64(k - 25) / 256;
+			var f float64 = float64(k-25) / 256
 			return color.RGBA{uint8(255 * math.Pow(f, 0.3)), uint8(255 * math.Pow(f, 0.2)), uint8(255 * math.Pow(f, 0.5)), 255}
 		} else {
 			z = z.Multiply(z).Add(c)
@@ -92,7 +92,7 @@ var ImageTemplate string = `<!DOCTYPE html>
 			    <img src="data:image/jpg;base64,{{.Image}}">
 			    </body>`
 
-// Writeimagewithtemplate encodes an image 'img' in jpeg format and writes it into ResponseWriter using a template.
+//encodes an image 'img' in jpeg format and writes it into ResponseWriter using a template.
 func writeImageWithTemplate(w http.ResponseWriter, img *image.Image) {
 
 	buffer := new(bytes.Buffer)

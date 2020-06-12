@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/KunBetter/Fractal/core"
-	"net/http"
 	"log"
+	"net/http"
 )
 
 func main() {

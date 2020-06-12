@@ -7,8 +7,8 @@ type Complex struct {
 func (i *Complex) Multiply(c *Complex) (r *Complex) {
 	r = &Complex{}
 
-	r.real = i.real * c.real - i.imag * c.imag
-	r.imag = i.real * c.imag + i.imag * c.real
+	r.real = i.real*c.real - i.imag*c.imag
+	r.imag = i.real*c.imag + i.imag*c.real
 
 	return
 }
